@@ -1,5 +1,5 @@
 def get_words():
-    with open("words_alpha.txt", "r") as f:
+    with open("wordle-answers-alphabetical.txt", "r") as f:
         words = f.read().splitlines()
         return words
 
