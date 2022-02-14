@@ -25,25 +25,31 @@ def update_words(words, guess, result):
             wrong_spot.update({i:guess[i]})
         elif result[i] == "C":
             correct.update({i:guess[i]})
-
+            
     if guess in words:
         words.remove(guess)
-    updated_words = []
 
     # Miss
-    for i in words:
-        for j in miss:
-            if j in i and j not in wrong_spot.values():
+    updated_words = words
+    for i in words[:]:
+        for m in miss:
+            if m in i and m not in correct.values():
+                updated_words.remove(i)
                 break
-        else:
-            updated_words.append(i)
-
-    # WrongSpot and Correct
-    for i in words: 
+    
+    # WrongSpot
+    for i in words[:]:
         for ws_k, ws_v in wrong_spot.items():
-            for c_k, c_v in correct.items():
-                if i[ws_k] != c_k or i[ws_v] not in c_v:
-                    updated_words.append(i)
+            if i[ws_k] == ws_v:
+                updated_words.remove(i)
+                break
+    # Correct
+    for i in words[:]:
+        for c_k, c_v in correct.items():
+            if i[c_k] != c_v:
+                updated_words.remove(i)
+                break
+
 
     if not updated_words:
         print("(Wordle) > Words are empty")
